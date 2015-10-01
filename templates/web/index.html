@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Main component for a primary marketing message or call to action -->
+    {% if username %}
+      <div class="jumbotron filters">
+      <h4>Быстрые фильтры</h4>
+      <p>Пользователи:
+          {% for user in users %}
+              {% if user.user.id in user_fl %}
+                <span id="filter_chosen" class="filter" value="{{ user.user.id }}" type="0">{{ user.user }}</span>
+              {% else %}
+                <span id="filter" class="filter" value="{{ user.user.id }}" type="0">{{ user.user }}</span>
+              {% endif %}
+          {% endfor %}
+      </p>
+      <p>Статусы:
+      {% for status in statuses %}
+          {% if status.0 in statuses_fl %}
+             <span id="filter_chosen" class="filter" value="{{ status.0 }}" type="1">{{ status.1 }}</span>
+          {% else %}
+             <span id="filter" class="filter" value="{{ status.0 }}" type="1">{{ status.1 }}</span>
+          {% endif %}
+      {% endfor %}</p>
+      </div>
+      <div class="jumbotron">
+      <a href="/add_new_task/">Добавить новую задачу</a>
+      <div id = 'table'></div>
+      </div>
+    {% else %}
+       <div class="col-xs-8 col-sm-8 col-lg-8 col-md-8">
+            <div id = 'auth'>
+                <p>gjhjhgjhgjhgjlfd ihhj iukujy  uigt ukjkjhkg jfj hg jgk ljhfjhfhdhhfh kkggjkhgjhgjhg kjh k fhgfgdhgfhfhgf  f  fhgf   </p>
+            </div>
+       </div>
+       <div class="col-xs-3 col-sm-3 col-lg-3 col-md-3">
+          <div id = 'auth'>
+                <form action="/auth/login/" method="post">
+                    {% csrf_token %}
+                    <p><label for="username">Пользователь</label></p>
+                    <p><input type = "text" name = "username" id = "username"></p>
+                    <p><label for="password">Пароль</label></p>
+                    <p><input type="password" name="password" id="password"></p>
+                    <p>{{ authinfo }}</p>
+                    <input type="submit" class="button" value="Авторизоваться">
+                </form>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

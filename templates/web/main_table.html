@@ -1,0 +1,44 @@
+<form>
+        {% csrf_token %}
+        <table>
+            <tr class =  'table_head'><th>Задача</th><th>Описание</th><th>Исполнитель</th><th>Статус</th></tr>
+            {% for task in tasks %}
+                <tr>
+                    <td width="20%">{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+
+                    <td width="20%">
+                        <select class="select">
+                            {% for user in users %}
+                                {% if user.user.id == task.user.id %}
+                                    <option selected value="0:{{task.id}}:{{ user.user.id }}">{{ user.user }}</option>
+                                {% else %}
+                                    <option value="0:{{task.id}}:{{ user.user.id }}">{{ user.user }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td width="15%">
+                        <select class="select">
+                            {% for status in statuses %}
+                                {% if status.0 == task.statuses %}
+                                    <option selected value="1:{{task.id}}:{{ status.0 }}">{{ status.1 }}</option>
+                                {% else %}
+                                    <option value="1:{{task.id}}:{{ status.0 }}">{{ status.1 }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            {% endfor %}
+	    </table>
+</form>
+<ul class="paginator">
+    {% for page in tasks.paginator.page_range %}
+        {% if page == tasks.number %}
+            <li class = 'pages' id="current_page" value = '{{ page }}'>{{ page }}</li>
+        {% else %}
+            <li class = 'pages' id="page" value = '{{ page }}'>{{ page }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>
